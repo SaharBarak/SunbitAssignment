@@ -1,6 +1,4 @@
 package customerapi.sunbitassignment;
-
-import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -83,9 +81,6 @@ public class Customer
     public void setDateOfBirth(int year, int month, int day) {
         this.dateOfBirth = new DateOfBirth(year,month,day);
     }
-    /*public void setDateOfBirth(LocalDate date) {
-        this.dateOfBirth = new DateOfBirth(date);
-    }*/
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

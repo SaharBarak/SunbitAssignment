@@ -1,15 +1,11 @@
 package customerapi.sunbitassignment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.jetbrains.annotations.Nullable;
-
 import javax.persistence.*;
-import java.time.LocalDate;
-
 @Entity
 @Table
-public class DateOfBirth {
-
+public class DateOfBirth
+{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -29,12 +25,6 @@ public class DateOfBirth {
         this.month = month;
         this.day = day;
     }
-    /*public DateOfBirth(LocalDate date)
-    {
-        this.year = date.getYear();
-        this.month = date.getMonthValue();
-        this.day = date.getDayOfMonth();
-    }*/
     public DateOfBirth(){
 
     }
@@ -58,5 +48,4 @@ public class DateOfBirth {
     public void setYear(int year) {
         this.year = year;
     }
-
 }

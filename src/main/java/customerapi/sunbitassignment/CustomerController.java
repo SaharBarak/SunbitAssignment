@@ -87,7 +87,6 @@ class CustomerController
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
                 .body(entityModel);
     }
-    // Single item
     @GetMapping("/customers/{id}")
     EntityModel<Customer> one(@PathVariable Long id) {
 
@@ -96,8 +95,8 @@ class CustomerController
         return assembler.toModel(customer);
     }
     @PutMapping("/customers/{id}")
-    ResponseEntity<?> replaceCustomers(@RequestBody Customer newCustomer, @PathVariable Long id) {
-
+    ResponseEntity<?> replaceCustomers(@RequestBody Customer newCustomer, @PathVariable Long id)
+    {
         Customer updatedCustomer = repository.findById(id)
                 .map(customer -> {
                     customer.setFirstName(newCustomer.getFirstName());
