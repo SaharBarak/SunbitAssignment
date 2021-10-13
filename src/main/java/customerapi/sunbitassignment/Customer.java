@@ -20,7 +20,9 @@ public class Customer
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="card_id", referencedColumnName = "id")
     private CreditCardDetails creditCardDetails;
-    private LocalDate dateOfBirth;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="birth_id", referencedColumnName = "id")
+    private DateOfBirth dateOfBirth;
     private String licenseNumber;
 
     //constructors
@@ -31,7 +33,7 @@ public class Customer
         this.lastName = lastName;
         this.address = address;
         this.creditCardDetails = creditCardDetails;
-        this.dateOfBirth = dateOfBirth;
+        this.dateOfBirth =  new DateOfBirth(dateOfBirth);
         this.licenseNumber = licenseNumber;
     }
 
@@ -47,7 +49,7 @@ public class Customer
         return creditCardDetails;
     }
     public LocalDate getDateOfBirth() {
-        return dateOfBirth;
+        return this.dateOfBirth.getDate();
     }
     public Long getId() {
         return id;
@@ -70,7 +72,7 @@ public class Customer
         this.creditCardDetails = creditCardDetails;
     }
     public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+        this.dateOfBirth = new DateOfBirth(dateOfBirth);
     }
     public void setFirstName(String firstName) {
         this.firstName = firstName;
