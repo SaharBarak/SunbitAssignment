@@ -93,10 +93,6 @@ class CustomerController
 
         Customer customer = repository.findById(id) //
                 .orElseThrow(() -> new CustomerNotFoundException(id));
-
-        /*return EntityModel.of(customer, //
-                linkTo(methodOn(CustomerController.class).one(id)).withSelfRel(),
-                linkTo(methodOn(CustomerController.class).all()).withRel("customers"));*/
         return assembler.toModel(customer);
     }
     @PutMapping("/customers/{id}")
