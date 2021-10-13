@@ -1,0 +1,23 @@
+Get all customers - browser
+http://localhost:8080/customers
+
+Find customers by id - browser
+http://localhost:8080/customers/1
+
+Find customers by city - browser
+http://localhost:8080/customers/city=Denver
+
+Find customers by name - browser
+http://localhost:8080/customers/name="John Hopkins"
+
+Find customers by age group - browser
+http://localhost:8080/customers/byAge/18-30
+
+Delete customer - via terminal/postman
+$ curl -i -X DELETE localhost:8080/customers/1/
+
+Insert customer - via terminal/postman
+$ curl -X POST localhost:8080/customers -H 'Content-type:application/json' -d '{"firstName":"Jimmy", "lastName":"hendrix", "Address":{"city":"Hadera", "street":"Hayanshufim", "houseNumber":"1", "zipCode":"343222"},"creditCardDetails":{"cardNumber":"123416641234", "cardExpirationDate":"03/33", "cvvCode":"333"}, "dateOfBirth":{"year":1990,"month":9,"day":18}, "licenseNumber":"3369620"}'
+
+Update customer - via terminal/postman
+curl -v -X PUT localhost:8080/customers/3 -H 'Content-Type:application/json' -d '{"firstName":"Jeffey", "lastName":"Lebowski", "Address":{"city":"Los Angeles", "street":"Simi Valley", "houseNumber":"2", "zipCode":"3422220"},"creditCardDetails":{"cardNumber":"12333341234", "cardExpirationDate":"03/33", "cvvCode":"333"}, "dateOfBirth":{"year":1990,"month":9,"day":18}, "licenseNumber":"3223320"}'
