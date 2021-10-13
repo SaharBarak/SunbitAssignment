@@ -103,6 +103,7 @@ class CustomerController
                     customer.setAddress(newCustomer.getAddress());
                     customer.setCreditCardDetails(newCustomer.getCreditCardDetails());
                     customer.setLicenseNumber(newCustomer.getLicenseNumber());
+                    customer.setDateOfBirth(newCustomer.getDateOfBirth());
                     return repository.save(customer);
                 })
                 .orElseGet(() -> {
