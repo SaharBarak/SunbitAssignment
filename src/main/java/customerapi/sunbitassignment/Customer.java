@@ -28,15 +28,24 @@ public class Customer
     //constructors
     public Customer(String firstName, String lastName,
                     Address address, CreditCardDetails creditCardDetails,
-                    LocalDate dateOfBirth, String licenseNumber){
+                    int year,int month, int day, String licenseNumber){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.creditCardDetails = creditCardDetails;
-        this.dateOfBirth =  new DateOfBirth(dateOfBirth);
+        this.dateOfBirth =  new DateOfBirth(year,month,day);
         this.licenseNumber = licenseNumber;
     }
-
+    public Customer(String firstName, String lastName,
+                    Address address, CreditCardDetails creditCardDetails,
+                    DateOfBirth dateOfBirth, String licenseNumber){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.creditCardDetails = creditCardDetails;
+        this.dateOfBirth =  dateOfBirth;
+        this.licenseNumber = licenseNumber;
+    }
     public Customer() {
 
     }
@@ -48,8 +57,8 @@ public class Customer
     public CreditCardDetails getCreditCardDetails() {
         return creditCardDetails;
     }
-    public LocalDate getDateOfBirth() {
-        return this.dateOfBirth.getDate();
+    public DateOfBirth getDateOfBirth() {
+        return this.dateOfBirth;
     }
     public Long getId() {
         return id;
@@ -71,9 +80,12 @@ public class Customer
     public void setCreditCardDetails(CreditCardDetails creditCardDetails) {
         this.creditCardDetails = creditCardDetails;
     }
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = new DateOfBirth(dateOfBirth);
+    public void setDateOfBirth(int year, int month, int day) {
+        this.dateOfBirth = new DateOfBirth(year,month,day);
     }
+    /*public void setDateOfBirth(LocalDate date) {
+        this.dateOfBirth = new DateOfBirth(date);
+    }*/
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

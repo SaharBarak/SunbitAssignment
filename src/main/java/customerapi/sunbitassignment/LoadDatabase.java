@@ -19,17 +19,17 @@ class LoadDatabase {
                     new Customer("Sahar", "Barak",
                             new Address("Qiryat Tivon", "Harimonim", "18", "303030"),
                             new CreditCardDetails("123412341234", "03/33", "333"),
-                            LocalDate.of(1997, 9, 18), "3333333")));
+                            new DateOfBirth(1997, 9, 18), "3333333")));
             log.info("Preloading " + repository.save(
                     new Customer("John", "Hopkins",
                             new Address("Denver", "11", "11", "111111"),
                             new CreditCardDetails("123412341235", "03/34", "334"),
-                            LocalDate.of(1999, 9, 9), "3333335")));
+                            new DateOfBirth(1999, 9, 9), "3333335")));
             log.info("Preloading " + repository.save(
                     new Customer("Amy", "Hopkins",
                             new Address("Denver", "11", "11", "111111"),
                             new CreditCardDetails("123412341236", "03/34", "336"),
-                            LocalDate.of(1997, 9, 9), "3333339")));
+                            new DateOfBirth(1997, 9, 9), "3333339")));
 
             repository.findAll().forEach(customer -> log.info("Preloaded " + customer));
         };
