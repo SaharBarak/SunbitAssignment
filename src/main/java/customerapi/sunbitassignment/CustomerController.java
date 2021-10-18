@@ -4,14 +4,9 @@ package customerapi.sunbitassignment;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,8 +18,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 class CustomerController
 {
-    private final CustomerRepository repository;
-    private final CustomerModelAssembler assembler;
+    private CustomerRepository repository;
+    private CustomerModelAssembler assembler;
 
     CustomerController(CustomerRepository repository, CustomerModelAssembler assembler) {
         this.repository = repository;
@@ -69,11 +64,9 @@ class CustomerController
         return CollectionModel.of(customers, linkTo(methodOn(CustomerController.class)
                 .all()).withSelfRel());
     }
-    @GetMapping("/customers/name={name}")
-    CollectionModel<EntityModel<Customer>> byName(@PathVariable String name)
+    @GetMapping("/customers/name")
+    CollectionModel<EntityModel<Customer>> byName(@RequestParam String firstName, @RequestParam String lastName )
     {
-        String firstName = name.split(" ")[0];
-        String lastName = name.split(" ")[1];
         List<EntityModel<Customer>> customers = repository.findByName(firstName, lastName).stream()
                 .map(assembler::toModel).collect(Collectors.toList());
         return CollectionModel.of(customers, linkTo(methodOn(CustomerController.class)
@@ -97,27 +90,31 @@ class CustomerController
     @PutMapping("/customers/{id}")
     ResponseEntity<?> replaceCustomers(@RequestBody Customer newCustomer, @PathVariable Long id)
     {
-        Customer updatedCustomer = repository.findById(id)
-                .map(customer -> {
-                    customer.setFirstName(newCustomer.getFirstName());
-                    customer.setLastName(newCustomer.getLastName());
-                    customer.setAddress(newCustomer.getAddress());
-                    customer.setCreditCardDetails(newCustomer.getCreditCardDetails());
-                    customer.setLicenseNumber(newCustomer.getLicenseNumber());
-                    customer.setDateOfBirth(newCustomer.getDateOfBirth().getYear(),
-                            newCustomer.getDateOfBirth().getMonth(),
-                            newCustomer.getDateOfBirth().getDay());
-                    return repository.save(customer);
-                })
-                .orElseGet(() -> {
-                    newCustomer.setId(id);
-                    return repository.save(newCustomer);
-                });
-        EntityModel<Customer> entityModel = assembler.toModel(updatedCustomer);
+        if(repository.existsById(id)) {
+            Customer updatedCustomer = repository.findById(id)
+                    .map(customer -> {
+                        customer.setFirstName(newCustomer.getFirstName());
+                        customer.setLastName(newCustomer.getLastName());
+                        customer.setAddress(newCustomer.getAddress());
+                        customer.setCreditCardDetails(newCustomer.getCreditCardDetails());
+                        customer.setLicenseNumber(newCustomer.getLicenseNumber());
+                        customer.setDateOfBirth(newCustomer.getDateOfBirth().getYear(),
+                                newCustomer.getDateOfBirth().getMonth(),
+                                newCustomer.getDateOfBirth().getDay());
+                        return repository.save(customer);
+                    })
+                    .orElseGet(() -> {
+                        newCustomer.setId(id);
+                        return repository.save(newCustomer);
+                    });
+            EntityModel<Customer> entityModel = assembler.toModel(updatedCustomer);
 
-        return ResponseEntity //
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
-                .body(entityModel);
+            return ResponseEntity //
+                    .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                    .body(entityModel);
+        }
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 
     }
     @DeleteMapping("/customers/{id}")
